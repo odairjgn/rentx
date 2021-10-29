@@ -24,7 +24,7 @@ import {
 } from './styles';
 
 interface Params {
-    car: CarDTO
+    car: CarDTO;
 }
 
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -37,7 +37,7 @@ export function CarDetails() {
     const { car } = route.params as Params;
 
     function handleConfirmRental() {
-        navigation.navigate("Scheduling");
+        navigation.navigate("Scheduling", { car });
     }
 
     function handleBack() {

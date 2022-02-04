@@ -7,7 +7,7 @@ import { CarDTO } from '../../dtos/carDTO';
 import { api } from '../../services/api';
 import { useTheme } from 'styled-components';
 import { Car } from '../../components/Car';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 import {
     Container,
@@ -86,7 +86,7 @@ export function MyCars() {
 
             </Header>
             {loading ?
-                <Load /> :
+                <LoadAnimation /> :
                 <Content>
                     <Appointments>
                         <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>

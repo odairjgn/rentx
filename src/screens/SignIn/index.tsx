@@ -39,6 +39,8 @@ export function SignIn() {
             });
 
             await schema.validate({ email, password })
+
+            //Fazer login
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 Alert.alert('Opa', error.message);

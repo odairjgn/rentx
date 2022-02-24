@@ -7,7 +7,6 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { BackButtom } from '../../../components/BackButtom';
 import { Bullet } from '../../../components/Bullet';
-import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
 
 import {
@@ -19,16 +18,15 @@ import {
     Form,
     FormTitle
 } from './styles';
+import { PasswordInput } from '../../../components/PasswordInput';
+import { useTheme } from 'styled-components';
 
-export function SignUpFirstStep() {
+export function SignUpSecondStep() {
     const navigation = useNavigation();
+    const theme = useTheme();
 
     function handleBack() {
         navigation.goBack();
-    }
-
-    function handleNextStep() {
-        navigation.navigate('SignUpSecondStep');
     }
 
     return (
@@ -38,8 +36,8 @@ export function SignUpFirstStep() {
                     <Header>
                         <BackButtom onPress={handleBack} />
                         <Steps>
-                            <Bullet active />
                             <Bullet />
+                            <Bullet active />
                         </Steps>
                     </Header>
                     <Title>
@@ -51,26 +49,20 @@ export function SignUpFirstStep() {
                     </Subtitle>
 
                     <Form>
-                        <FormTitle>1. Dados</FormTitle>
-                        <Input
-                            iconName='user'
-                            placeholder='Nome'
+                        <FormTitle>2. Senha</FormTitle>
+                        <PasswordInput
+                            iconName='lock'
+                            placeholder='Senha'
                         />
-                        <Input
-                            iconName='mail'
-                            placeholder='E-mail'
-                            keyboardType='email-address'
-                        />
-                        <Input
-                            iconName='credit-card'
-                            placeholder='CNH'
-                            keyboardType='numeric'
+                        <PasswordInput
+                            iconName='lock'
+                            placeholder='Repetir senha'
                         />
                     </Form>
 
                     <Button
-                        title='Próximo'
-                        onPress={handleNextStep}
+                        color={theme.colors.success}
+                        title='Cadastrar'
                     />
                 </Container>
             </TouchableWithoutFeedback>

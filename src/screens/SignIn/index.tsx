@@ -56,7 +56,7 @@ export function SignIn() {
     }
 
     function handleNewAccount() {
-        navigation.navigate('SignUpFirstStep' as never);
+        navigation.navigate('SignUpFirstStep');
     }
 
     return (

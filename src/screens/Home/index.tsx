@@ -76,11 +76,11 @@ export function Home() {
 
 
   function handleCarDatails(car: CarDTO) {
-    navigation.navigate("CarDetails" as never, { car } as never);
+    navigation.navigate("CarDetails", { car });
   }
 
   function handleOpenMyCars() {
-    navigation.navigate("MyCars" as never);
+    navigation.navigate("MyCars");
   }
 
   useEffect(() => {

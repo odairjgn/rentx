@@ -77,7 +77,7 @@ export function CarDetails() {
     });
 
     function handleConfirmRental() {
-        navigation.navigate("Scheduling" as never, { car } as never);
+        navigation.navigate("Scheduling", { car });
     }
 
     function handleBack() {

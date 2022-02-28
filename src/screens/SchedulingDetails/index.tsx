@@ -60,12 +60,12 @@ export function SchedulingDetails() {
     const route = useRoute();
     const { car, dates } = route.params as Params;
 
-    const rentTotal = Number(dates.length * car.rent.price);
+    const rentTotal = Number(dates.length * car.price);
 
     async function handleConfirmRental() {
         setLoading(true);
 
-        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+        const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`) as any;
 
         const unavailable_dates = [
             ...schedulesByCar.data.unavailable_dates,
@@ -83,11 +83,11 @@ export function SchedulingDetails() {
             id: car.id,
             unavailable_dates
         })
-            .then(() => navigation.navigate("Confirmation", {
+            .then(() => navigation.navigate("Confirmation" as never, {
                 title: "Carro alugado!",
                 message: "Agora você só precisa ir\naté a concessionária da RENTX\npara pegar seu automóvel.",
                 nextScreenRoute: "Home"
-            }))
+            } as never))
             .catch(() => {
                 Alert.alert('Não foi possivel confirmar o agendamento.');
                 setLoading(false);
@@ -124,8 +124,8 @@ export function SchedulingDetails() {
                     </Description>
 
                     <Rent>
-                        <Period>{car.rent.period}</Period>
-                        <Price>R$ {car.rent.price}</Price>
+                        <Period>{car.period}</Period>
+                        <Price>R$ {car.price}</Price>
                     </Rent>
                 </Details>
                 <Accessories>
@@ -166,7 +166,7 @@ export function SchedulingDetails() {
                 <RentalPrice>
                     <RentalPriceLabel>TOTAL</RentalPriceLabel>
                     <RentalPriceDetails>
-                        <RentalPriceQuota>{`R$ ${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
+                        <RentalPriceQuota>{`R$ ${car.price} x${dates.length} diárias`}</RentalPriceQuota>
                         <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
                     </RentalPriceDetails>
                 </RentalPrice>

@@ -16,6 +16,6 @@ export interface CarDTO {
     ,
     photos: {
         id: string,
-        photho: string
+        photo: string
     }[]
 }

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, BackHandler } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
@@ -76,11 +76,11 @@ export function Home() {
 
 
   function handleCarDatails(car: CarDTO) {
-    navigation.navigate("CarDetails", { car });
+    navigation.navigate("CarDetails" as never, { car } as never);
   }
 
   function handleOpenMyCars() {
-    navigation.navigate("MyCars");
+    navigation.navigate("MyCars" as never);
   }
 
   useEffect(() => {
@@ -98,9 +98,6 @@ export function Home() {
     fetchCars();
   }, []);
 
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => { return true; })
-  }, []);
 
   return (
     <Container>
@@ -133,6 +130,7 @@ export function Home() {
         />
       }
 
+{/*
       <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View
           style={[
@@ -156,6 +154,7 @@ export function Home() {
           </ButtonAnimated>
         </Animated.View>
       </PanGestureHandler>
+        */}
     </Container >
   );
 }

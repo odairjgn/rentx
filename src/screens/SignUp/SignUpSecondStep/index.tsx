@@ -60,11 +60,11 @@ export function SignUpSecondStep() {
             password
         })
         .then(() => {
-            navigation.navigate('Confirmation', {
+            navigation.navigate('Confirmation' as never, {
                 title: 'Conta Criada!',
                 message: 'Agora é só fazer login\ne aproveitar.',
                 nextScreenRoute: 'SignIn'
-            });
+            } as never);
         })
         .catch(() => {
             Alert.alert('Opa', 'Não foi possível cadastrar.');

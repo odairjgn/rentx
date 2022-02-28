@@ -17,7 +17,7 @@ export function Accessory({
 }: Props) {
     return (
         <Container>
-            <Icon width={32} height={32} />
+            <Icon width={32} height={32} fill="#41414D" />
             <Name>{name}</Name>
         </Container>
     );

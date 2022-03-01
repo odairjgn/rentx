@@ -4,10 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeSvg from '../assets/home.svg';
 import CarSvg from '../assets/car.svg';
 import PeopleSvg from '../assets/people.svg';
-
-import { Home } from '../screens/Home';
 import { AppStackRoutes } from './app.stack.routes';
 import { MyCars } from '../screens/MyCars';
+import { Profile } from '../screens/Profile';
 import { Platform } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -49,9 +48,9 @@ export function AppTabRoutes() {
                       )
                 }}
             />     
-             <Screen
+            <Screen
                 name="Profile"
-                component={Home}
+                component={Profile}
                 options={{
                     tabBarIcon: ({ focused, color }) => (
                         <PeopleSvg width={24} height={24} fill={color} />

@@ -76,26 +76,36 @@ export function Home() {
 
 
   function handleCarDatails(car: CarDTO) {
-    navigation.navigate("CarDetails", { car });
+    navigation.navigate("CarDetails" as never, { car } as never);
   }
 
   function handleOpenMyCars() {
-    navigation.navigate("MyCars");
+    navigation.navigate("MyCars" as never);
   }
 
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchCars() {
       try {
         const response = await api.get('/cars');
-        setCars(response.data as CarDTO[]);
+        if(isMounted){
+          setCars(response.data as CarDTO[]);
+        }
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        if(isMounted){
+          setLoading(false);
+        }
       }
     }
 
     fetchCars();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
 

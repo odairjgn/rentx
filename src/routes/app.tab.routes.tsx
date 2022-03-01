@@ -28,7 +28,7 @@ export function AppTabRoutes() {
                   backgroundColor: theme.colors.background_primary
                 },
                 tabBarActiveTintColor: theme.colors.main,
-                tabBarInactiveTintColor: theme.colors.text_details
+                tabBarInactiveTintColor: theme.colors.text_detail
              }}
         >
             <Screen

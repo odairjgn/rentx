@@ -14,7 +14,7 @@ interface User {
   user_id: string;
   email: string;
   name: string;
-  drive_license: string;
+  driver_license: string;
   avatar: string;
   token: string;
 }
@@ -28,6 +28,7 @@ interface AuthContextData {
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut: () => Promise<void>;
+  updateUser(user: User): Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -56,7 +57,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           newUser.user_id = user.id;
           newUser.name = user.name;
           newUser.email = user.email;
-          newUser.driver_license = user.drive_license;
+          newUser.driver_license = user.driver_license;
           newUser.avatar = user.avatar;
           newUser.token = token;
         });
@@ -77,6 +78,24 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       setData({} as User);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function updateUser(user: User) {
+    try {
+      const userCollection = database.get<ModelUser>("users");
+      await database.write(async () => {
+        const userSelected = await userCollection.find(data.id);
+        await userSelected.update((userData) => {
+          userData.name = user.name;
+          userData.driver_license = user.driver_license;
+          userData.avatar = user.avatar;
+        });
+      });
+
+      setData(user);
     } catch (error) {
       throw error;
     }
@@ -103,6 +122,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         user: data,
         signIn,
         signOut,
+        updateUser,
       }}
     >
       {children}

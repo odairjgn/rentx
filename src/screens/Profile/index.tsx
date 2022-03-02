@@ -3,6 +3,7 @@ import { BackButtom } from "../../components/BackButtom";
 import { useTheme } from "styled-components";
 import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import * as Yup from "yup";
 
 import {
   Container,
@@ -27,16 +28,17 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { useAuth } from "../../hooks/auth";
+import { Button } from "../../components/Button";
 
 export function Profile() {
-  const { user, signOut } = useAuth();
-
+  const { user, signOut, updateUser } = useAuth();
   const [option, setOption] = useState<"dataEdit" | "passwordEdit">("dataEdit");
   const [avatar, setAvatar] = useState(user.avatar);
   const [name, setName] = useState(user.name);
-  const [driveLicense, setDriveLicense] = useState(user.drive_license);
+  const [driveLicense, setDriveLicense] = useState(user.driver_license);
 
   const theme = useTheme();
   const navigation = useNavigation();
@@ -63,6 +65,35 @@ export function Profile() {
 
     if (result.uri) {
       setAvatar(result.uri);
+    }
+  }
+
+  async function handleProfileUpdate() {
+    try {
+      const schema = Yup.object().shape({
+        driveLicense: Yup.string().required("CNH obrigatório"),
+        name: Yup.string().required("Nome obrigatório"),
+      });
+
+      const data = { name, driveLicense };
+      await schema.validate(data);
+      await updateUser({
+        id: user.id,
+        user_id: user.user_id,
+        email: user.email,
+        name: name,
+        driver_license: driveLicense,
+        avatar: avatar,
+        token: user.token,
+      });
+
+      Alert.alert("Perfil atualizado!");
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert("Opa", error.message);
+      } else {
+        Alert.alert("Não foi possível atualizar o perfil");
+      }
     }
   }
 
@@ -121,7 +152,7 @@ export function Profile() {
                   iconName="credit-card"
                   placeholder="CNH"
                   keyboardType="numeric"
-                  defaultValue={user.drive_license}
+                  defaultValue={user.driver_license}
                   onChangeText={setDriveLicense}
                 />
               </Section>
@@ -132,6 +163,8 @@ export function Profile() {
                 <PasswordInput iconName="lock" placeholder="Reptir Senha" />
               </Section>
             )}
+
+            <Button title="Salvar Alterações" onPress={handleProfileUpdate} />
           </Content>
         </Container>
       </TouchableWithoutFeedback>

@@ -1,40 +1,29 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { useTheme } from 'styled-components';
-import {
-  RectButton,
-  PanGestureHandler
-} from 'react-native-gesture-handler';
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Alert, StatusBar, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { RFValue } from "react-native-responsive-fontsize";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { useTheme } from "styled-components";
+import { RectButton, PanGestureHandler } from "react-native-gesture-handler";
 
-import Animated,
-{
+import Animated, {
   useSharedValue,
   useAnimatedStyle,
   useAnimatedGestureHandler,
-  withSpring
-}
-  from 'react-native-reanimated';
+  withSpring,
+} from "react-native-reanimated";
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
-import Logo from '../../assets/logo.svg';
-import { api } from '../../services/api';
-import { CarDTO } from '../../dtos/carDTO';
+import Logo from "../../assets/logo.svg";
+import { api } from "../../services/api";
+import { CarDTO } from "../../dtos/carDTO";
 
-import { Car } from '../../components/Car';
-import { LoadAnimation } from '../../components/LoadAnimation';
+import { Car } from "../../components/Car";
+import { LoadAnimation } from "../../components/LoadAnimation";
 
-import {
-  Container,
-  Header,
-  HeaderContent,
-  TotalCars,
-  CarList
-} from './styles';
-
+import { Container, Header, HeaderContent, TotalCars, CarList } from "./styles";
 
 export function Home() {
   const [cars, setCars] = useState<CarDTO[]>([]);
@@ -47,12 +36,12 @@ export function Home() {
     return {
       transform: [
         {
-          translateX: positionX.value
+          translateX: positionX.value,
         },
         {
-          translateY: positionY.value
-        }
-      ]
+          translateY: positionY.value,
+        },
+      ],
     };
   });
 
@@ -68,12 +57,12 @@ export function Home() {
     onEnd() {
       positionX.value = withSpring(0);
       positionY.value = withSpring(0);
-    }
+    },
   });
 
+  const netInfo = useNetInfo();
   const navigation = useNavigation();
   const theme = useTheme();
-
 
   function handleCarDatails(car: CarDTO) {
     navigation.navigate("CarDetails" as never, { car } as never);
@@ -88,14 +77,14 @@ export function Home() {
 
     async function fetchCars() {
       try {
-        const response = await api.get('/cars');
-        if(isMounted){
+        const response = await api.get("/cars");
+        if (isMounted) {
           setCars(response.data as CarDTO[]);
         }
       } catch (error) {
         console.log(error);
       } finally {
-        if(isMounted){
+        if (isMounted) {
           setLoading(false);
         }
       }
@@ -108,7 +97,6 @@ export function Home() {
     };
   }, []);
 
-
   return (
     <Container>
       <StatusBar
@@ -118,29 +106,23 @@ export function Home() {
       />
       <Header>
         <HeaderContent>
-          <Logo
-            width={RFValue(108)}
-            height={RFValue(12)}
-          />
-          {
-            !!loading &&
-            <TotalCars>
-              Total de {cars.length} carros
-            </TotalCars>
-          }
+          <Logo width={RFValue(108)} height={RFValue(12)} />
+          {!!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
         </HeaderContent>
       </Header>
-      {loading ?
+      {loading ? (
         <LoadAnimation />
-        :
+      ) : (
         <CarList
           data={cars}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <Car data={item} onPress={() => handleCarDatails(item)} />}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Car data={item} onPress={() => handleCarDatails(item)} />
+          )}
         />
-      }
+      )}
 
-{/*
+      {/*
       <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View
           style={[
@@ -165,7 +147,7 @@ export function Home() {
         </Animated.View>
       </PanGestureHandler>
         */}
-    </Container >
+    </Container>
   );
 }
 
@@ -174,7 +156,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

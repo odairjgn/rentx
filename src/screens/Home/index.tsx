@@ -67,7 +67,8 @@ export function Home() {
   const navigation = useNavigation();
   const theme = useTheme();
 
-  function handleCarDatails(car: CarDTO) {
+  function handleCarDatails(car: ModelCar) {
+    console.log(car);
     navigation.navigate("CarDetails" as never, { car } as never);
   }
 
@@ -89,7 +90,9 @@ export function Home() {
       },
       pushChanges: async ({ changes }) => {
         const user = changes.users;
-        const response = await api.post("/users/sync", user);
+        await api.post("/users/sync", user).catch((error) => {
+          console.log(error);
+        });
       },
     });
   }
